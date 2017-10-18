@@ -1,3 +1,7 @@
+#define LOWER_CAMEL_CASE 0
+#define CAMEL_CASE 1
+
+
 #if LOWER_CAMEL_CASE 1
 
 #define GET get

@@ -3,7 +3,6 @@
 //
 #ifdef _GTEST
 
-#include "CodeStyle.h"
 #include "flatten.h"
 
 #include <thread>
@@ -14,13 +13,13 @@ TEST(flatten_unwrap, promise_caused) {
 	Promise<Future<Future<int>>> promise2;
 	Promise<Future<int>> promise1;
 	Promise<int> promise0;
-	Future<Future<Future<Future<int>>>> future = promise3.GET_FUTURE();
-	promise3.SET(promise2.GET_FUTURE());
-	promise2.SET(promise1.GET_FUTURE());
-	promise1.SET(promise0.GET_FUTURE());
-	promise0.SET(5);
-	Future<int> normalized(FLATTEN(std::move(future)));
-	ASSERT_EQ(normalized.GET(), 5);
+	Future<Future<Future<Future<int>>>> future = promise3.GetFuture();
+	promise3.Set(promise2.GetFuture());
+	promise2.Set(promise1.GetFuture());
+	promise1.Set(promise0.GetFuture());
+	promise0.Set(5);
+	Future<int> normalized(Flatten(std::move(future)));
+	ASSERT_EQ(normalized.Get(), 5);
 }
 
 TEST(flatten_unwrap, function_caused) {
@@ -28,8 +27,8 @@ TEST(flatten_unwrap, function_caused) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(300)); 
 		return 5;
 	});
-	ASSERT_FALSE(future.IS_READY());
-	ASSERT_EQ(future.GET(), 5);
+	ASSERT_FALSE(future.IsReady());
+	ASSERT_EQ(future.Get(), 5);
 }
 
 TEST(flatten_unwrap, function_caused_void) {
@@ -37,8 +36,8 @@ TEST(flatten_unwrap, function_caused_void) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		return;
 	});
-	ASSERT_FALSE(future.IS_READY());
-	future.GET();
+	ASSERT_FALSE(future.IsReady());
+	future.Get();
 }
 
 TEST(flatten_unwrap, function_caused_wrappered) {
@@ -46,8 +45,8 @@ TEST(flatten_unwrap, function_caused_wrappered) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		return Future<int>([] { return 5; });
 	});
-	ASSERT_FALSE(future.IS_READY());
-	ASSERT_EQ(FLATTEN(std::move(future)).GET(), 5);
+	ASSERT_FALSE(future.IsReady());
+	ASSERT_EQ(Flatten(std::move(future)).Get(), 5);
 }
 
 #endif // _GTEST

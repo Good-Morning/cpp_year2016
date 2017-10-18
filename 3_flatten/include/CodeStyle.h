@@ -1,3 +1,5 @@
+#pragma once
+
 #define LOWER_CAMEL_CASE 0
 #define CAMEL_CASE 1
 

@@ -1,6 +1,5 @@
 #ifdef _GTEST
 
-#include "CodeStyle.h"
 #include "flatten.h"
 
 #include <thread>

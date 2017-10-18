@@ -3,15 +3,14 @@
 //
 #pragma once
 
-#include <CodeStyle.h>
 #include <future.h>
 #include <promise.h>
 
 template<typename T>
-Future<T> FLATTEN(Future<T> const &);
+Future<T> Flatten(Future<T> const &);
 
 template<typename T>
-Future<T> FLATTEN(Future<Future<T>> const &);
+Future<T> Flatten(Future<Future<T>> const &);
 
 template<template<typename, typename...> class C, typename T>
-Future<C<T>> FLATTEN(C<Future<T>> const &);
+Future<C<T>> Flatten(C<Future<T>> const &);
